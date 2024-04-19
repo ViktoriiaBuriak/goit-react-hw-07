@@ -4,9 +4,7 @@ import css from "./ContactList.module.css";
 import { useSelector } from "react-redux";
 
 function ContactList() {
-  
   const filteredContacts = useSelector(selectFilteredContacts);
-  
 
   return (
     <ul className={css.contactList}>

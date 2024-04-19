@@ -14,8 +14,8 @@ function ContactForm() {
 
   const dispatch = useDispatch();
 
-  const onAddContact = (newContact) => {
-    dispatch(addContact(newContact));
+  const onAddContact = (formData) => {
+    dispatch(addContact(formData));
   };
 
   const nameId = useId();

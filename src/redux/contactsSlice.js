@@ -16,7 +16,7 @@ const contactsSlice = createSlice({
       //All contacts
       .addCase(fetchContacts.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.loading = false;
@@ -29,7 +29,7 @@ const contactsSlice = createSlice({
       //Add contacts
       .addCase(addContact.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(addContact.fulfilled, (state, action) => {
         state.loading = false;
@@ -42,11 +42,13 @@ const contactsSlice = createSlice({
       //Delete contacts
       .addCase(deleteContact.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.filter((item) => item.id !== action.payload);
+        state.items = state.items.filter(
+          (item) => item.id !== action.payload.id
+        );
       })
       .addCase(deleteContact.rejected, (state, action) => {
         state.loading = false;
@@ -55,17 +57,12 @@ const contactsSlice = createSlice({
   },
 });
 
-export const selectContacts = (state) => state.contacts.items; 
+export const selectContacts = (state) => state.contacts.items;
 
-export const selectFilteredContacts = createSelector([
-  selectContacts,
-  selectNameFilter
-],
+export const selectFilteredContacts = createSelector(
+  [selectContacts, selectNameFilter],
   (contacts, filter) => {
-    // if (!Array.isArray(contacts)) {
-    //   return [];
-    // }
-    return contacts.filter(contact =>
+    return contacts.filter((contact) =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   }
